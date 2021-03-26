@@ -72,7 +72,7 @@ BEGIN{
 
 END{
     # 2 e
-    printf "Transaksi terakhir dengan profit percentage terbesar yaitu " maxId " dengan persentase "maxProfit"%.\n";
+    printf "Transaksi terakhir dengan profit percentage terbesar yaitu " maxId " dengan persentase "maxProfit"%.\n\n";
     printf "Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n";
     for(i in datCus)
     {
@@ -95,7 +95,7 @@ END{
         segCusMin = "Consumer";
     }
     
-    printf "Tipe segmen customer yang penjualannya paling sedikit adalah " segCusMin " dengan " minSeg " transaksi.\n";
+    printf "\nTipe segmen customer yang penjualannya paling sedikit adalah " segCusMin " dengan " minSeg " transaksi.\n\n";
 
     if(profC < profW)
     {
