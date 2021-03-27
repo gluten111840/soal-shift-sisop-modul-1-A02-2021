@@ -1,10 +1,14 @@
 #!/bin/bash
-if [[ ! -d ./soal3res ]]
+if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021 ]]
 then
-    mkdir ./soal3res
+    mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021
+    if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res ]]
+    then
+        mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res
+    fi
 fi
 
-cd ./soal3res || exit
+cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit
 
 downloadImage() {
     if [[ $(grep -c "$web$loc" ./$folder/Foto.log) -gt 1 ]]
@@ -88,13 +92,13 @@ then
     then
         mkdir "Kucing_$currentDate"
         folder="Kucing_$currentDate"
-        downloadBunny
+        downloadKitten
     fi
 else
     if [[ ! -d "Kelinci_$currentDate" ]]
     then
         mkdir "Kelinci_$currentDate"
         folder="Kelinci_$currentDate"
-        downloadKitten
+        downloadBunny
     fi
 fi

@@ -1,5 +1,16 @@
 #!/bin/bash
 
+if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021 ]]
+then
+    mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021
+    if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res ]]
+    then
+        mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res
+    fi
+fi
+
+cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit
+
 downloadImage() {
     if [[ $(grep -c "$web$loc" Foto.log) -gt 1 ]]
     then

@@ -1,13 +1,17 @@
 #!/bin/bash
 
-if [[ ! -d ./soal3res ]]
+if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021 ]]
 then
-    mkdir ./soal3res
+    mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021
+    if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res ]]
+    then
+        mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res
+    fi
 fi
 
-if [[ ! -d ./soal3res/$(date +"%d-%m-%Y") ]]
+if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res/$(date +"%d-%m-%Y") ]]
 then
-    mkdir ./soal3/res$(date +"%d-%m-%Y")
+    mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res/$(date +"%d-%m-%Y")
 fi
 
 cd ./soal3res/$(date +"%d-%m-%Y") || exit
