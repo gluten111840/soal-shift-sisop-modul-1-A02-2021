@@ -14,7 +14,7 @@ then
     mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res/$(date +"%d-%m-%Y")
 fi
 
-cd ./soal3res/$(date +"%d-%m-%Y") || exit
+cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res/$(date +"%d-%m-%Y") || exit
 
 downloadImage() {
     if [[ $(grep -c "$web$loc" Foto.log) -gt 1 ]]
