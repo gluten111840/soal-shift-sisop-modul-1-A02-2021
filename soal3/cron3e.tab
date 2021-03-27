@@ -1,5 +1,5 @@
-# zip
+# zip (Untuk directory script soal3d.sh harap diganti menyesuaikan dengan lokasi file)
 0 7 * * 1-5 ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3d.sh
 
 # unzip
-0 18 * * 1-5 password=$(date +'%m%d%Y'); unzip -P "$password" ./soal3res/Koleksi.zip; rm ./soal3res/Koleksi.zip
+0 18 * * 1-5 cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit; password=$(date +'%m%d%Y'); unzip -P "$password" ./Koleksi.zip; rm -rf ./Koleksi.zip
