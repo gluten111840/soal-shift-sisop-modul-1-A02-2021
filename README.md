@@ -442,12 +442,51 @@ Membuat script untuk **mengunduh** 23 gambar dari `"https://loremflickr.com/320/
 
 
 ### 3b
-**Soal**  
+**Soal**
 Karena Kuuhaku malas untuk menjalankan script tersebut secara manual, ia juga meminta kalian untuk menjalankan script tersebut **sehari sekali pada jam 8 malam** untuk tanggal-tanggal tertentu setiap bulan, yaitu dari **tanggal 1 tujuh hari sekali** (1,8,...), serta dari **tanggal 2 empat hari sekali** (2,6,...). Supaya lebih rapi, gambar yang telah diunduh beserta **log-nya**, **dipindahkan ke folder** dengan nama **tanggal unduhnya** dengan **format** "DD-MM-YYYY" (contoh : "13-03-2023").
 
 
-**Jawab**  
+**Jawab**
 
+**soal3b[dot]sh** \
+Soal 3b ini sebenarnya hanya penyempurnaan dari soal 3a, penyempurnaannya ada pada beberapa baris kode di awal file yang melakukan pengaturan **folder** sehingga tertata dengan baik. \
+**Code :** \
+Membuat direktori jika direktori yang diinginkan tidak ditemukan.
+```sh
+if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021 ]]
+then
+    mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021
+    if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res ]]
+    then
+        mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res
+    fi
+fi
+```
+Membuat direktori yang memuat informasi pada tanggal *current date* folder itu dibuat
+```sh
+if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res/$(date +"%d-%m-%Y") ]]
+then
+    mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res/$(date +"%d-%m-%Y")
+fi
+```
+Berpindah ke direktori di atas untuk melanjutkan operasi seperti pada **soal3a[dot]sh**.
+```sh
+cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res/$(date +"%d-%m-%Y") || exit
+
+...
+
+```
+
+**cron3b.tab** \
+Di dalam soal, kita diminta untuk menjalankan script **soal3b[dot]sh** pada tanggal - tanggal tertentu dengan ketentuan **sehari sekali pada jam 8 malam**, **tanggal 1 tujuh hari sekali** (1,8,...), serta **tanggal 2 empat hari sekali** (2,6,...), sehingga dengan menggunakan crontab, dihasilkan sebagai berikut
+```
+0 20 1/7,2/4 * * ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3b.sh
+```
+di mana \
+"0" menandakan bahwa dia baru bekerja pada **menit ke-0**, \
+"20" menandakan pada **jam 8 malam**, \
+"1/7" menandakan **mulai tanggal 1 kemudian melompat hingga 7 hari ke depan** \
+"2/4" menandakan **mulai tanggal 2 kemudian melompat hingga 4 hari ke depan** 
 
 ### 3c
 **Soal**  
@@ -457,17 +496,75 @@ Agar kuuhaku tidak bosan dengan gambar anak kucing, ia juga memintamu untuk **me
 
 
 ### 3d
-**Soal**  
+**Soal**
 Untuk mengamankan koleksi Foto dari Steven, Kuuhaku memintamu untuk membuat script yang akan **memindahkan seluruh folder ke zip** yang diberi nama “Koleksi.zip” dan **mengunci** zip tersebut dengan **password** berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).
 
 
-**Jawab**  
+**Jawab**
 
+**Code :**
+```sh
+#!/bin/bash
 
+password=$(date +'%m%d%Y')
+```
+Proses inisiasi password yang merupakan tanggal zip tersebut dibuat
+```sh
+cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit
+
+for file in $(ls)
+do
+zip -r -P "$password" Koleksi.zip $file;
+rm -rf $file
+done
+
+```
+
+Pada persoalan ini, kita diminta untuk membuat zip dari semua isi di dalam folder **/soal3res** dan menghapus file di luar zip, yaitu dengan menggunakan perulangan **for** untuk menginisiasi semua isi di dalam folder ke dalam variabel *$file* dengan menggunakan *$(ls)* yang secara langsung menampilkan semua data.
+
+Untuk proses meng-*zip*, kita memerlukan zip yang berpassword, sehingga menggunakan 
+```sh
+zip -r -P "$password" Koleksi.zip $file;
+```
+di mana -P merupakan sebuah *command* untuk menginisiasi password dalam sebuah zip. \
+Kemudian untuk menghapus file - file di luar zip, kita menggunakan 
+```sh
+rm -rf $file
+```
 ### 3e
-**Soal**  
+**Soal**
 Karena kuuhaku hanya bertemu Steven pada saat kuliah saja, yaitu setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu untuk membuat koleksinya **ter-zip** saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya **ter-unzip** dan **tidak ada file zip** sama sekali.
 
+**Jawab**
 
-**Jawab**  
+Di dalam soal, kita diminta untuk mengeset waktu untuk proses meng-zip dan meng-unzip di waktu - waktu tertentu, **setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore untuk proses pengezipan**, sedangkan untuk proses pengunzipan di luar waktu - waktu itu (**di atas jam 6 sore pada setiap hari selain sabtu dan minggu**) dengan menggunakan **crontab** sebagai berikut
+```
+# zip (Untuk directory script soal3d.sh harap diganti menyesuaikan dengan lokasi file)
+0 7 * * 1-5 ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3d.sh
+```
+Untuk proses zip, kita tinggal menjalankan soal3d[dot]sh pada \
+"0" = **menit ke-0** \
+"7" = **jam 7 pagi** \
+"1-5" = **hari Senin sampai Jumat**
+```
+# unzip
+0 18 * * 1-5 cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit; password=$(date +'%m%d%Y'); unzip -P "$password" ./Koleksi.zip; rm -rf ./Koleksi.zip
+```
+Untuk proses unzip, kita harus membuat kode shell lagi di dalam crontab sebagai berikut \
+"0" = **menit ke-0** \
+"18" = **jam 6 sore** \
+"1-5" = **hari Senin sampai Jumat** 
 
+kemudian untuk shellnya 
+```sh 
+cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit; password=$(date +'%m%d%Y'); unzip -P "$password" ./Koleksi.zip; rm -rf ./Koleksi.zip
+```
+Prosesnya yaitu, 
+1. Menginisiasi password tanggal hari itu, dikarenakan waktu untuk mengzip dan mengunzip berada pada tanggal yang sama
+```sh
+password=$(date +'%m%d%Y');
+```
+2. Mengunzip file dan menghapus file .zip
+```sh
+unzip -P "$password" ./Koleksi.zip; rm -rf ./Koleksi.zip
+```
