@@ -80,29 +80,30 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
 ```
 
 Penjelasan:
-```sh
-usernames=$(grep -oE '(\(.*\))' syslog.log)
-```
 - Pada baris pertama hasil dari `grep -oE '(\(.*\))' syslog.log` dimasukkan kedalam variabel *`usernames`*.
   
+    ```sh
+    usernames=$(grep -oE '(\(.*\))' syslog.log)
+    ```
+- Variabel *`usernames`* di-*echo* kemudian di-*pipe* dalam beberapa command.
   ```sh
   echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
   ```
-- Variabel *`usernames`* di-*echo* kemudian di-*pipe* dalam beberapa command.
   - Command `tr -d ')'` dan `tr -d '('` berguna untuk menghapus kurung yang masih terdapat dalam variabel *`usernames`*
   - Kemudian dilakukan `sort` dan `uniq` untuk mendapatkan hasil yang sorted dan uniq untuk setiap user.
-  
+  - Digunakan `while read` loop untuk membaca setiap line dari command sebelumnya.
     ```sh
     while read -r user
     do
         ...
     done
     ```
-  - Digunakan `while read` loop untuk membaca setiap line dari command sebelumnya.
+  - Dilakukan `grep` dengan option `-wh` untuk mengambil baris yang sesuai dengan nama *`username`* yang sedang dicari.  
+  
     ```sh
     grep -wh "$user" syslog.log
     ```
-  - Dilakukan `grep` dengan option `-wh` untuk mengambil baris yang sesuai dengan nama *`username`* yang sedang dicari.
+  - Dilanjutkan dengan `for` loop hasil dari `grep` diatas, lalu dicek apakah *`msg`* tersebut mengandung ERROR atau INFO. Jumlah kemunculan ERROR dan INFO dimasukkan kedalam variabel.
     ```sh
     for msg in $(grep -wh "$user" syslog.log)
     do
@@ -116,11 +117,10 @@ usernames=$(grep -oE '(\(.*\))' syslog.log)
         fi
     done
     ```
-  - Dilanjutkan dengan `for` loop hasil dari `grep` diatas, lalu dicek apakah *`msg`* tersebut mengandung ERROR atau INFO. Jumlah kemunculan ERROR dan INFO dimasukkan kedalam variabel.
+  - Terakhir, jika loop sudah selesai maka hasil akan di-*echo* dengan format `$user, $userError, $userInfo` sesuai dengan permintaan soal.
     ```sh
     echo $user,$userError,$userInfo
     ```
-  - Terakhir, jika loop sudah selesai maka hasil akan di-*echo* dengan format `$user, $userError, $userInfo` sesuai dengan permintaan soal.
 
 Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
 ![Hasil 1c]()  
@@ -152,28 +152,26 @@ echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
   
 
 **Penjelasan :**
-```sh
-echo "Error","Count" > error_message.csv
-```
 - Karena soal meminta output dimasukkan kedalam file `error_message.csv` dengan header **Error, Count** maka pada baris pertama diinisialisasi header tersebut kedalam file `error_message.csv` dengan mode *overwrite*.
 
+    ```sh
+    echo "Error","Count" > error_message.csv
+    ```
 
-```sh
-errMessages=$(grep -oE 'ERROR.*' syslog.log)
-```
 - Pada baris selanjutnya hasil dari `grep -oE 'ERROR.*' syslog.log` dimasukkan kedalam variabel *`errMessages`*.
-
-
-```sh
-echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
-    while read -r errMsg
-    do
-        number=$(grep -c "$errMsg" syslog.log)
-        errMsg+=','$number
-        echo "$errMsg"
-    done | sort -rnk 2 -t',' >> error_message.csv
-```
+    ```sh
+    errMessages=$(grep -oE 'ERROR.*' syslog.log)
+    ```
 - Variabel *`errMessages`* di-*echo* kemudian di-*pipe* kedalam beberapa command.
+  ```sh
+  echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
+      while read -r errMsg
+      do
+          number=$(grep -c "$errMsg" syslog.log)
+          errMsg+=','$number
+          echo "$errMsg"
+      done | sort -rnk 2 -t',' >> error_message.csv
+  ```
   - Command pertama adalah `grep -oP "(?<=ERROR\s).*(?=\()"`, pada soal ini saya belajar bagaimana cara menggunakan *lookbehind* dan *lookahead* yang seharusnya bisa diimplementasikan pada soal c diatas untuk menghindari penggunaan `tr -d`.
   - Kemudian di-*pipe* dalam `sort` dan `uniq` untuk mendapatkan output yang *sorted* dan *unique*.
   - Kembali menggunakan `while read` loop untuk membaca setiap line dari hasil *pipe* dan dimasukkan ke variabel *`errMsg`*.
