@@ -21,7 +21,7 @@ downloadImage() {
 }
 
 counter=0
-for ((i=0; i<23; i=i+1))
+for ((i=1; i<=23; i=i+1))
 do
     web="https://loremflickr.com"
     toDownload=$(curl -s -i https://loremflickr.com/320/240/kitten)
