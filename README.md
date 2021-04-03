@@ -13,13 +13,16 @@ Ryujin baru saja diterima sebagai IT support di perusahaan Bukapedia. Dia diberi
 ### 1a
 **Soal**  
 Mengumpulkan informasi dari log aplikasi yang terdapat pada file `syslog.log`. Informasi yang diperlukan antara lain: jenis log (ERROR/INFO), pesan log, dan username pada setiap baris lognya. Karena Ryujin merasa kesulitan jika harus memeriksa satu per satu baris secara manual, dia menggunakan regex untuk mempermudah pekerjaannya. Bantulah Ryujin membuat regex tersebut.  
-  
+</br>
+
 **Jawab**  
 Pada soal ini diminta untuk menampilkan jenis log (ERROR/INFO), pesan log, dan username pada setiap baris log. Berikut adalah baris kode untuk dapat menampilkan log sesuai permintaan soal:
 ```sh
 grep -oE '(INFO\s.*)|(ERROR\s.*)' syslog.log
 ```
-Penjelasan:
+</br>
+
+**Penjelasan :**
 - Command `grep` digunakan untuk mencari teks dengan regex yang sudah ditentukan.
   - Option `-o` berfungsi untuk hanya menampilkan teks sesuai dengan regex.
   - Option `-E` menginterpretasi argumen selanjutnya sebagai Extended Regular Expressions (EREs).
@@ -33,15 +36,17 @@ Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
 ### 1b
 **Soal**  
 Kemudian, Ryujin harus menampilkan semua pesan error yang muncul beserta jumlah kemunculannya.  
-  
+</br>
+
 **Jawab**  
 Pada soal ini saya sendiri (Ananda) sedikit bingung permintaan soal, apakah diminta jumlah ERROR yang muncul atau jumlah setiap pesan ERROR yang muncul. Karena saat pertama membaca soal yang muncul dibenak saya untuk menghitung jumlah ERROR yang muncul, maka implementasinya adalah sebagai berikut:
 ```sh
 grep -oE 'ERROR.*' syslog.log
 echo Total Error Count = $(grep -cE "ERROR" syslog.log)
 ```
+</br>
 
-Penjelasan:
+**Penjelasan :**
 - Baris pertama dari potongan kode diatas mirip dengan soal 1a, untuk menampilkan semua pesan ERROR dalam `syslog.log`
 - Untuk baris kedua menampilkan jumlah ERROR yang muncul dalam `syslog.log`
   - Pada bagian kanan terdapat command `grep` dengan regex "ERROR"
@@ -53,7 +58,8 @@ Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
 ### 1c
 **Soal**  
 Ryujin juga harus dapat menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap user-nya.  
-  
+</br>
+
 **Jawab**  
 Pada soal ini diminta untuk menampilkan jumlah kemunculan log ERROR dan INFO dari setiap user yang ada pada `syslog.log`. Implementasi dari kami adalah sebagai berikut:
 
@@ -78,8 +84,9 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
         echo $user,$userError,$userInfo
     done
 ```
+</br>
 
-Penjelasan:
+**Penjelasan :**
 - Pada baris pertama hasil dari `grep -oE '(\(.*\))' syslog.log` dimasukkan kedalam variabel *`usernames`*.
   
     ```sh
@@ -135,7 +142,8 @@ Permission denied,5
 File not found,3
 Failed to connect to DB,2
 ```  
-  
+</br>
+
 **Jawab**  
 Pada soal ini diminta hasil dari soal **b** dimasukkan ke dalam file `error_message.csv` dengan header **Error, Count** yang kemudian **diurutkan** berdasarkan kemunculan pesan error dari yang terbanyak. Berhubung implementasi kami dari soal **b** belum sesuai dengan permintaan pada soal **d** ini, berikut adalah implementasi kami untuk soal **d**:
 ```sh
@@ -149,7 +157,7 @@ echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
         echo "$errMsg"
     done | sort -rnk 2 -t',' >> error_message.csv
 ```
-  
+</br>
 
 **Penjelasan :**
 - Karena soal meminta output dimasukkan kedalam file `error_message.csv` dengan header **Error, Count** maka pada baris pertama diinisialisasi header tersebut kedalam file `error_message.csv` dengan mode *overwrite*.
@@ -195,7 +203,8 @@ kaori02,6,0
 kousei01,2,2
 ryujin.1203,1,3
 ```  
-  
+</br>
+
 **Jawab**  
 Pada soal ini diminta untuk memasukkan hasil dari poin **c** dituliskan ke dalam file `user_statistic.csv` dengan header **Username,INFO,HEADER diurutkan** berdasarkan username secara **ascending**.
 ```sh
@@ -220,8 +229,9 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
         echo $user,$userError,$userInfo >> user_statistic.csv
     done
 ```
+</br>
 
-Penjelasan:  
+**Penjelasan :**  
 Untuk dapat menyelesaikan soal 1e ini hanya diperlukan beberapa tambahan kode.
 - Pada bagian awal ditambahkan `echo Username,INFO,ERROR > user_statistic.csv` untuk *overwrite* file `user_statistic.csv`
 - Pada bagian `echo $user,$userError,$userInfo` ditambahkan ` >> user_statistic.csv` untuk append hasil ke dalam `user_statistic.csv`.
@@ -236,13 +246,14 @@ Steven dan Manis mendirikan sebuah *startup* bernama “TokoShiSop”. Sedangkan
 Tiap tahunnya, TokoShiSop mengadakan Rapat Kerja yang membahas bagaimana hasil penjualan dan strategi kedepannya yang akan diterapkan. Kamu sudah sangat menyiapkan sangat matang untuk raker tahun ini. Tetapi tiba-tiba, Steven, Manis, dan Clemong meminta kamu untuk mencari beberapa kesimpulan dari data penjualan `Laporan-TokoShiSop.tsv`.
 
 ### 2a
-**Soal** \
+**Soal**  
 Steven ingin mengapresiasi kinerja karyawannya selama ini dengan mengetahui **Row ID** dan ***profit percentage* terbesar** (jika hasil profit *percentage* terbesar lebih dari 1, maka ambil Row ID yang paling besar). Karena kamu bingung, Clemong memberikan definisi dari *profit percentage*, yaitu:
 
 `Profit Percentage = (Profit / Cost Price) * 100`
 
 *Cost Price* didapatkan dari pengurangan *Sales* dengan *Profit*. (**Quantity diabaikan**).
-  
+</br>
+
 **Jawab**
 
 **Code :**
@@ -265,7 +276,7 @@ Kemudian jika hasil profit percentage lebih dari 1, maka kita mengambil Row ID t
 
 
 ### 2b
-**Soal** \
+**Soal**  
 Clemong memiliki rencana promosi di Albuquerque menggunakan metode MLM. Oleh karena itu, Clemong membutuhkan daftar **nama *customer* pada transaksi tahun 2017 di Albuquerque**.
   
 **Jawab**
@@ -300,11 +311,10 @@ Sehingga menghasilkan daftar nama customer sebagai berikut :
 |David Wiener   |
 
 ### 2c
-**Soal** \
+**Soal**  
 TokoShiSop berfokus tiga *segment customer*, antara lain: *Home Office*, *Customer*, dan *Corporate*. Clemong ingin meningkatkan penjualan pada *segment customer* yang paling sedikit. Oleh karena itu, Clemong membutuhkan **segment *customer*** dan **jumlah transaksinya yang paling sedikit**.
   
-**Jawab**
-
+**Jawab**  
 Soal meminta kita untuk mencari *segment customer* yang memiliki peningkatan penjualan paling sedikit. \
 Hal yang pertama dilakukan adalah dengan menginisialisasi variabel - variabel pendukung yang akan digunakan dalam operasi hitung di bawah.
 ```awk
@@ -359,11 +369,10 @@ Sehingga dihasilkan data sebagai berikut :
 
 
 ### 2d
-**Soal** \
+**Soal**  
 TokoShiSop membagi wilayah bagian (*region*) penjualan menjadi empat bagian, antara lain: *Central*, *East*, *South*, dan *West*. Manis ingin mencari **wilayah bagian (*region*) yang memiliki total keuntungan (*profit*) paling sedikit** dan **total keuntungan wilayah tersebut**.
   
-**Jawab**
-
+**Jawab**  
 Soal meminta kita untuk mencari *region* yang memiliki total keuntungan (*profit*) paling sedikit dan besar total keuntungannya. \
 Hal yang pertama dilakukan adalah dengan menginisialisasi variabel - variabel pendukung yang akan digunakan dalam operasi hitung di bawah.
 ```awk
@@ -432,19 +441,15 @@ Sehingga dihasilkan data sebagai berikut :
 ### 2e
 **Soal** \
 kamu diharapkan bisa membuat sebuah script yang akan menghasilkan file “hasil.txt” yang memiliki format sebagai berikut:
-```
-Transaksi terakhir dengan profit percentage terbesar yaitu ***ID Transaksi*** dengan persentase ***Profit Percentage***%.
 
-Daftar nama customer di Albuquerque pada tahun 2017 antara lain:
+>Transaksi terakhir dengan profit percentage terbesar yaitu ***ID Transaksi*** dengan persentase ***Profit Percentage***%.</br></br>
+>Daftar nama customer di Albuquerque pada tahun 2017 antara lain:
 ***Nama Customer1***
-***Nama Customer2* dst**
+***Nama Customer2* dst**</br></br>
+>Tipe segmen customer yang penjualannya paling sedikit adalah ***Tipe Segment*** dengan ***Total Transaksi*** transaksi.</br></br>
+>Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah ***Nama Region*** dengan total keuntungan ***Total Keuntungan (Profit)***
 
-Tipe segmen customer yang penjualannya paling sedikit adalah ***Tipe Segment*** dengan ***Total Transaksi*** transaksi.
-
-Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah ***Nama Region*** dengan total keuntungan ***Total Keuntungan (Profit)***
-```
-**Jawab**
-
+**Jawab**  
 Pada soal, kita hanya diminta untuk menampilkan hasil - hasil dari perhitungan sebelumnya ke dalam beberapa kalimat yang hasilnya disimpan ke dalam file **hasil.txt**
 
 ```awk
@@ -468,19 +473,16 @@ END{
 ' Laporan-TokoShiSop.tsv > hasil.txt
 ```
 Sehingga menghasilkan
-```
-Transaksi terakhir dengan profit percentage terbesar yaitu 9952 dengan persentase 100%.
 
-Daftar nama customer di Albuquerque pada tahun 2017 antara lain:
-Benjamin Farhat
-Michelle Lonsdale
-Susan Vittorini
-David Wiener
+>Transaksi terakhir dengan profit percentage terbesar yaitu 9952 dengan persentase 100%.</br></br>
+>Daftar nama customer di Albuquerque pada tahun 2017 antara lain:</br>
+>Benjamin Farhat</br>
+>Michelle Lonsdale</br>
+>Susan Vittorini</br>
+>David Wiener</br></br>
+>Tipe segmen customer yang penjualannya paling sedikit adalah Home Office dengan 1783 transaksi.</br></br>
+>Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah Central dengan total keuntungan 39706.4
 
-Tipe segmen customer yang penjualannya paling sedikit adalah Home Office dengan 1783 transaksi.
-
-Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah Central dengan total keuntungan 39706.4
-```
 ## Soal 3
 ### Narasi Soal
 Kuuhaku adalah orang yang sangat suka mengoleksi foto-foto digital, namun Kuuhaku juga merupakan seorang yang pemalas sehingga ia tidak ingin repot-repot mencari foto, selain itu ia juga seorang pemalu, sehingga ia tidak ingin ada orang yang melihat koleksinya tersebut, sayangnya ia memiliki teman bernama Steven yang memiliki rasa kepo yang luar biasa. Kuuhaku pun memiliki ide agar Steven tidak bisa melihat koleksinya, serta untuk mempermudah hidupnya, yaitu dengan meminta bantuan kalian. Idenya adalah :
@@ -488,9 +490,136 @@ Kuuhaku adalah orang yang sangat suka mengoleksi foto-foto digital, namun Kuuhak
 ### 3a
 **Soal**  
 Membuat script untuk **mengunduh** 23 gambar dari `"https://loremflickr.com/320/240/kitten"` serta **menyimpan** log-nya ke file `"Foto.log"`. Karena gambar yang diunduh acak, ada kemungkinan gambar yang sama terunduh lebih dari sekali, oleh karena itu kalian harus **menghapus** gambar yang sama (tidak perlu mengunduh gambar lagi untuk menggantinya). Kemudian **menyimpan** gambar-gambar tersebut dengan nama "Koleksi_XX" dengan nomor yang berurutan **tanpa ada nomor yang hilang** (contoh : Koleksi_01, Koleksi_02, ...)
+</br>
 
 **Jawab**  
+```sh
+#!/bin/bash
 
+if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021 ]]
+then
+    mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021
+    if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res ]]
+    then
+        mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res
+    fi
+fi
+
+cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit
+
+downloadImage() {
+    if [[ $(grep -c "$web$loc" Foto.log) -gt 1 ]]
+    then
+        counter=$((counter-1))
+    else
+        wget -o - "$web$loc" | grep -oP "/cache.*" > webLog.log
+    fi
+}
+
+counter=0
+for ((i=1; i<=23; i=i+1))
+do
+    web="https://loremflickr.com"
+    toDownload=$(curl -s -i https://loremflickr.com/320/240/kitten)
+    loc=$(echo "$toDownload" | grep "location" | grep -oP "/cache.*" | tr -d $'\r')
+    filename=$(echo "$toDownload" | grep "location" | grep -oP "/resized/\K.*" | tr -d $'\r')
+
+    if [[ $i -eq 0 ]]
+    then
+        echo "$web$loc" > Foto.log
+        downloadImage
+    else
+        echo "$web$loc" >> Foto.log
+        downloadImage
+    fi
+
+    echo "$counter"
+    if [[ $counter -lt 10 ]]
+    then
+        mv "$filename" "Koleksi_0$counter.JPG"
+    else
+        mv "$filename" "Koleksi_$counter.JPG"
+    fi
+
+    counter=$((counter+1))
+done
+
+
+```
+</br>
+
+**Penjelasan :**  
+- Pertama kita mengecek apakah *directory* `~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res`, jika tidak ada maka dibuat *directory* tersebut. Kemudian dilakukan `cd` ke dalam *directory* terkait.
+    ```sh
+    if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021 ]]
+    then
+        mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021
+        if [[ ! -d ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res ]]
+        then
+            mkdir ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res
+        fi
+    fi
+
+    cd ~/Downloads/soal-shift-sisop-modul-1-A02-2021/soal3res || exit
+    ```
+- Inisialisasi variabel *`counter`* untuk penamaan file dan penggunaan `for` loop untuk men-*download* foto.
+    ```sh
+    counter=0
+    for ((i=1; i<=23; i=i+1))
+    do
+        ...
+    done
+    ```
+- Kemudian menginisialisasi beberapa variabel yang akan diperlukan untuk melakukan *download* foto.
+    ```sh
+    web="https://loremflickr.com"
+    toDownload=$(curl -s -i https://loremflickr.com/320/240/kitten)
+    loc=$(echo "$toDownload" | grep "location" | grep -oP "/cache.*" | tr -d $'\r')
+    filename=$(echo "$toDownload" | grep "location" | grep -oP "/resized/\K.*" | tr -d $'\r')
+    ```
+    - `web` menyimpan alamat utama web
+    - `toDownload` menggunakan bantuan *library* `curl` untuk mengetahui ke laman mana kita akan di-*redirect*. Menggunakan *option* `-i` untuk mendapatkan **header** dari web yang diakses. Kemudian *option* `-s` untuk men-*suppress* error jika terdapat error.
+    - `loc` menyimpan alamat *redirect* dengan menggunakan `grep -oP "/cache.*"` kemudian `tr -d $'\r'` dikarenakan `\r` menyebabkan error pada bagian *download*.
+    - `filename` menyimpan nama file yang didapatkan dari *redirect* menggunakan `grep -oP "/resized/\K.*"` dengan menggunakan *lookbehind* `\K` kemudian `tr -d $'\r'` dikarenakan `\r` menyebabkan error pada bagian *download*.
+
+- Cek jika loop berada pada loop awal maka gunakan mode *overwrite*, jika tidak maka *append* ke `Foto.log`. Kemudian jalankan fungsi *`downloadImage`*.
+    ```sh
+    if [[ $i -eq 0 ]]
+    then
+        echo "$web$loc" > Foto.log
+        downloadImage
+    else
+        echo "$web$loc" >> Foto.log
+        downloadImage
+    fi
+    ```
+- Setelah file di-*download*, akan di-*rename*. Dilakukan juga pengecekan apakah file yang ter-*download* sudah lebih dari 10 atau belum.
+    ```sh
+    echo "$counter"
+    if [[ $counter -lt 10 ]]
+    then
+        mv "$filename" "Koleksi_0$counter.JPG"
+    else
+        mv "$filename" "Koleksi_$counter.JPG"
+    fi
+
+    counter=$((counter+1))
+    ```
+- Fungsi *`downloadImage`*
+    ```sh
+    downloadImage() {
+        if [[ $(grep -c "$web$loc" Foto.log) -gt 1 ]]
+        then
+            counter=$((counter-1))
+        else
+            wget -o - "$web$loc" | grep -oP "/cache.*" > webLog.log
+        fi
+    }
+    ```
+    - Melakukan cek apakah foto yang akan di-*download* sudah pernah di-*download* sebelumnya. Kemudian mengurangkan *`counter`* untuk mencegah penamaan yang salah.
+    - Jika belum maka *download* file tersebut.
+  
+</br>
 
 ### 3b
 **Soal**
@@ -542,9 +671,72 @@ di mana \
 ### 3c
 **Soal**  
 Agar kuuhaku tidak bosan dengan gambar anak kucing, ia juga memintamu untuk **mengunduh** gambar kelinci dari `"https://loremflickr.com/320/240/bunny"`. Kuuhaku memintamu **mengunduh** gambar kucing dan kelinci secara **bergantian** (yang pertama bebas. contoh : tanggal 30 kucing > tanggal 31 kelinci > tanggal 1 kucing > ... ). Untuk membedakan folder yang berisi gambar kucing dan gambar kelinci, **nama folder diberi awalan** "Kucing_" atau "Kelinci_" (contoh : "Kucing_13-03-2023")
+</br>
 
 **Jawab**  
+```sh
+downloadBunny() {
+    counter=0
+    for ((i=1; i<=23; i=i+1))
+    do
+        web="https://loremflickr.com"
+        toDownload=$(curl -s -i https://loremflickr.com/320/240/bunny)
+        loc=$(echo "$toDownload" | grep "location" | grep -oP "/cache.*" | tr -d $'\r')
+        filename=$(echo "$toDownload" | grep "location" | grep -oP "/resized/\K.*" | tr -d $'\r')
 
+        if [[ $i -eq 0 ]]
+        then
+            echo "$web$loc" > ./$folder/Foto.log
+            downloadImage
+        else
+            echo "$web$loc" >> ./$folder/Foto.log
+            downloadImage
+        fi
+
+        echo "$counter"
+        if [[ $counter -lt 10 ]]
+        then
+            mv "./$folder/$filename" "./$folder/Koleksi_0$counter.JPG"
+        else
+            mv "./$folder/$filename" "./$folder/Koleksi_$counter.JPG"
+        fi
+
+        counter=$((counter+1))
+    done    
+}
+
+
+currentDate=$(date +"%d-%m-%Y")
+yesterDate=$(date -d "yesterday" +"%d-%m-%Y")
+
+echo "$currentDate","$yesterDate"
+
+if [[ $(ls -l | grep "$yesterDate" | grep -c "Kelinci") -eq 1 ]]
+then
+    if [[ ! -d "Kucing_$currentDate" ]]
+    then
+        mkdir "Kucing_$currentDate"
+        folder="Kucing_$currentDate"
+        downloadKitten
+    fi
+else
+    if [[ ! -d "Kelinci_$currentDate" ]]
+    then
+        mkdir "Kelinci_$currentDate"
+        folder="Kelinci_$currentDate"
+        downloadBunny
+    fi
+fi
+```
+</br>
+
+**Penjelasan :**  
+Untuk implementasi soal **3c** hanya diperlukan beberapa modifikasi dari soal **3a**. Modifikasi yang saya lakukan antara lain:
+- Menyimpan tanggal saat ini (*`currentDate`*) dan tanggal kemarin (*`yesterDate`*).
+- Menambahkan fungsi *`downloadBunny`* untuk men-*download* foto kelinci dari web yang sudah ditentukan.
+- Melakukan pengecekan apakah terdapat folder `Kelinci_<$yesterDate>`, jika belum ada maka jalankan fungsi *`downloadBunny`*. Selain itu jalankan fungsi *`downloadKitten`*.
+- Terdapat juga beberapa perubahan dalam fungsi *`download`* untuk dapat menyesuaikan dengan perubahan *directory* yang terjadi.
+</br>
 
 ### 3d
 **Soal**
@@ -571,7 +763,7 @@ done
 
 ```
 
-Pada persoalan ini, kita diminta untuk membuat zip dari semua isi di dalam folder **/soal3res** dan menghapus file di luar zip, yaitu dengan menggunakan perulangan **for** untuk menginisiasi semua isi di dalam folder ke dalam variabel *$file* dengan menggunakan *$(ls)* yang secara langsung menampilkan semua data.
+Pada persoalan ini, kita diminta untuk membuat zip dari semua isi di dalam folder **/soal3res** dan menghapus file di luar zip, yaitu dengan menggunakan perulangan **for** untuk menginisiasi semua isi di dalam folder ke dalam variabel *`$file` dengan menggunakan `$(ls)`* yang secara langsung menampilkan semua data.
 
 Untuk proses meng-*zip*, kita memerlukan zip yang berpassword, sehingga menggunakan 
 ```sh
