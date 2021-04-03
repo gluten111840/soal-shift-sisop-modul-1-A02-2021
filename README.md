@@ -14,9 +14,9 @@ Ryujin baru saja diterima sebagai IT support di perusahaan Bukapedia. Dia diberi
 **Soal**  
 Mengumpulkan informasi dari log aplikasi yang terdapat pada file `syslog.log`. Informasi yang diperlukan antara lain: jenis log (ERROR/INFO), pesan log, dan username pada setiap baris lognya. Karena Ryujin merasa kesulitan jika harus memeriksa satu per satu baris secara manual, dia menggunakan regex untuk mempermudah pekerjaannya. Bantulah Ryujin membuat regex tersebut.  
   
-**Jawab**
+**Jawab**  
 Pada soal ini diminta untuk menampilkan jenis log (ERROR/INFO), pesan log, dan username pada setiap baris log. Berikut adalah baris kode untuk dapat menampilkan log sesuai permintaan soal:
-```Shell
+```sh
 grep -oE '(INFO\s.*)|(ERROR\s.*)' syslog.log
 ```
 Penjelasan:
@@ -27,16 +27,16 @@ Penjelasan:
   - Dalam regex ini terdapat operator | (OR) untuk memilih regex mana yang sesuai dengan baris tersebut. Untuk kasus ini ada `(INFO\s.*)` dan `(ERROR\s.*)`
   - Secara umum pola yang digunakan adalah `(<teks>.*)`, dimana \<teks\> merupakan teks yang dicari, dan `.*` digunakan untuk *match* semua huruf dibelakang pola teks.
 
-Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
+Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
 ![Hasil 1a]()  
 
 ### 1b
 **Soal**  
 Kemudian, Ryujin harus menampilkan semua pesan error yang muncul beserta jumlah kemunculannya.  
   
-**Jawab**
+**Jawab**  
 Pada soal ini saya sendiri (Ananda) sedikit bingung permintaan soal, apakah diminta jumlah ERROR yang muncul atau jumlah setiap pesan ERROR yang muncul. Karena saat pertama membaca soal yang muncul dibenak saya untuk menghitung jumlah ERROR yang muncul, maka implementasinya adalah sebagai berikut:
-```Shell
+```sh
 grep -oE 'ERROR.*' syslog.log
 echo Total Error Count = $(grep -cE "ERROR" syslog.log)
 ```
@@ -47,17 +47,17 @@ Penjelasan:
   - Pada bagian kanan terdapat command `grep` dengan regex "ERROR"
   - Menggunakan option `-c` untuk menampilkan jumlah kata yang *match* dengan regex diatas
   
-Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
+Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
 ![Hasil 1b]()  
 
 ### 1c
 **Soal**  
 Ryujin juga harus dapat menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap user-nya.  
   
-**Jawab**
+**Jawab**  
 Pada soal ini diminta untuk menampilkan jumlah kemunculan log ERROR dan INFO dari setiap user yang ada pada `syslog.log`. Implementasi dari kami adalah sebagai berikut:
 
-```Shell
+```sh
 usernames=$(grep -oE '(\(.*\))' syslog.log)
 echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
     while read -r user
@@ -80,16 +80,49 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
 ```
 
 Penjelasan:
+```sh
+usernames=$(grep -oE '(\(.*\))' syslog.log)
+```
 - Pada baris pertama hasil dari `grep -oE '(\(.*\))' syslog.log` dimasukkan kedalam variabel *`usernames`*.
+  
+  ```sh
+  echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
+  ```
 - Variabel *`usernames`* di-*echo* kemudian di-*pipe* dalam beberapa command.
   - Command `tr -d ')'` dan `tr -d '('` berguna untuk menghapus kurung yang masih terdapat dalam variabel *`usernames`*
   - Kemudian dilakukan `sort` dan `uniq` untuk mendapatkan hasil yang sorted dan uniq untuk setiap user.
+  
+    ```sh
+    while read -r user
+    do
+        ...
+    done
+    ```
   - Digunakan `while read` loop untuk membaca setiap line dari command sebelumnya.
+    ```sh
+    grep -wh "$user" syslog.log
+    ```
   - Dilakukan `grep` dengan option `-wh` untuk mengambil baris yang sesuai dengan nama *`username`* yang sedang dicari.
+    ```sh
+    for msg in $(grep -wh "$user" syslog.log)
+    do
+        if [ "$msg" = "ERROR" ]
+        then
+            userError=$((userError+1))
+        fi
+        if [ "$msg" = "INFO" ]
+        then
+            userInfo=$((userInfo+1))
+        fi
+    done
+    ```
   - Dilanjutkan dengan `for` loop hasil dari `grep` diatas, lalu dicek apakah *`msg`* tersebut mengandung ERROR atau INFO. Jumlah kemunculan ERROR dan INFO dimasukkan kedalam variabel.
+    ```sh
+    echo $user,$userError,$userInfo
+    ```
   - Terakhir, jika loop sudah selesai maka hasil akan di-*echo* dengan format `$user, $userError, $userInfo` sesuai dengan permintaan soal.
 
-Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
+Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
 ![Hasil 1c]()  
 
 ### 1d
@@ -103,9 +136,9 @@ File not found,3
 Failed to connect to DB,2
 ```  
   
-**Jawab**
+**Jawab**  
 Pada soal ini diminta hasil dari soal **b** dimasukkan ke dalam file `error_message.csv` dengan header **Error, Count** yang kemudian **diurutkan** berdasarkan kemunculan pesan error dari yang terbanyak. Berhubung implementasi kami dari soal **b** belum sesuai dengan permintaan pada soal **d** ini, berikut adalah implementasi kami untuk soal **d**:
-```Shell
+```sh
 echo "Error","Count" > error_message.csv
 errMessages=$(grep -oE 'ERROR.*' syslog.log)
 echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
@@ -116,10 +149,30 @@ echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
         echo "$errMsg"
     done | sort -rnk 2 -t',' >> error_message.csv
 ```
+  
 
-Penjelasan:
+**Penjelasan :**
+```sh
+echo "Error","Count" > error_message.csv
+```
 - Karena soal meminta output dimasukkan kedalam file `error_message.csv` dengan header **Error, Count** maka pada baris pertama diinisialisasi header tersebut kedalam file `error_message.csv` dengan mode *overwrite*.
+
+
+```sh
+errMessages=$(grep -oE 'ERROR.*' syslog.log)
+```
 - Pada baris selanjutnya hasil dari `grep -oE 'ERROR.*' syslog.log` dimasukkan kedalam variabel *`errMessages`*.
+
+
+```sh
+echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
+    while read -r errMsg
+    do
+        number=$(grep -c "$errMsg" syslog.log)
+        errMsg+=','$number
+        echo "$errMsg"
+    done | sort -rnk 2 -t',' >> error_message.csv
+```
 - Variabel *`errMessages`* di-*echo* kemudian di-*pipe* kedalam beberapa command.
   - Command pertama adalah `grep -oP "(?<=ERROR\s).*(?=\()"`, pada soal ini saya belajar bagaimana cara menggunakan *lookbehind* dan *lookahead* yang seharusnya bisa diimplementasikan pada soal c diatas untuk menghindari penggunaan `tr -d`.
   - Kemudian di-*pipe* dalam `sort` dan `uniq` untuk mendapatkan output yang *sorted* dan *unique*.
@@ -131,7 +184,7 @@ Penjelasan:
     - Option `-k` digunakan untuk menspesifikasikan *key*.
     - Option `-t` digunakan untuk menspesifikasikan *separator* yang digunakan.
 
-Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
+Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
 ![Hasil 1d]()  
 
 ### 1e
@@ -145,9 +198,9 @@ kousei01,2,2
 ryujin.1203,1,3
 ```  
   
-**Jawab**
+**Jawab**  
 Pada soal ini diminta untuk memasukkan hasil dari poin **c** dituliskan ke dalam file `user_statistic.csv` dengan header **Username,INFO,HEADER diurutkan** berdasarkan username secara **ascending**.
-```Shell
+```sh
 echo Username,INFO,ERROR > user_statistic.csv
 usernames=$(grep -oE '(\(.*\))' syslog.log)
 echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
@@ -170,12 +223,12 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
     done
 ```
 
-Penjelasan:
+Penjelasan:  
 Untuk dapat menyelesaikan soal 1e ini hanya diperlukan beberapa tambahan kode.
 - Pada bagian awal ditambahkan `echo Username,INFO,ERROR > user_statistic.csv` untuk *overwrite* file `user_statistic.csv`
 - Pada bagian `echo $user,$userError,$userInfo` ditambahkan ` >> user_statistic.csv` untuk append hasil ke dalam `user_statistic.csv`.
 
-Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
+Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
 ![Hasil 1e]()  
 
 ## Soal 2
