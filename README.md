@@ -381,7 +381,7 @@ Sehingga dihasilkan data sebagai berikut :
 ### 2e
 **Soal** \
 kamu diharapkan bisa membuat sebuah script yang akan menghasilkan file “hasil.txt” yang memiliki format sebagai berikut:
-
+```
 Transaksi terakhir dengan profit percentage terbesar yaitu ***ID Transaksi*** dengan persentase ***Profit Percentage***%.
 
 Daftar nama customer di Albuquerque pada tahun 2017 antara lain:
@@ -391,7 +391,7 @@ Daftar nama customer di Albuquerque pada tahun 2017 antara lain:
 Tipe segmen customer yang penjualannya paling sedikit adalah ***Tipe Segment*** dengan ***Total Transaksi*** transaksi.
 
 Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah ***Nama Region*** dengan total keuntungan ***Total Keuntungan (Profit)***
-  
+```
 **Jawab**
 
 Pada soal, kita hanya diminta untuk menampilkan hasil - hasil dari perhitungan sebelumnya ke dalam beberapa kalimat yang hasilnya disimpan ke dalam file **hasil.txt**
