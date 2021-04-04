@@ -621,7 +621,7 @@ done
 
 
 Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
-![Hasil 1d](./img/3a.png) 
+![Hasil 3a](./img/3a.png) 
 
 ### 3b
 **Soal**
@@ -738,7 +738,10 @@ Untuk implementasi soal **3c** hanya diperlukan beberapa modifikasi dari soal **
 - Menambahkan fungsi *`downloadBunny`* untuk men-*download* foto kelinci dari web yang sudah ditentukan.
 - Melakukan pengecekan apakah terdapat folder `Kelinci_<$yesterDate>`, jika belum ada maka jalankan fungsi *`downloadBunny`*. Selain itu jalankan fungsi *`downloadKitten`*.
 - Terdapat juga beberapa perubahan dalam fungsi *`download`* untuk dapat menyesuaikan dengan perubahan *directory* yang terjadi.
-</br>
+
+
+Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
+![Hasil 3c](./img/3c.png) 
 
 ### 3d
 **Soal**
