@@ -20,7 +20,7 @@ downloadImage() {
     fi
 }
 
-counter=0
+counter=1
 for ((i=1; i<=23; i=i+1))
 do
     web="https://loremflickr.com"
