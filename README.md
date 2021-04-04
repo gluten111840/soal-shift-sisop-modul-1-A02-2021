@@ -274,7 +274,7 @@ Kemudian jika hasil profit percentage lebih dari 1, maka kita mengambil Row ID t
 | ------------- | ----------------- |
 |       9952    | 100%              |
 
-![hasil 2a](./img/2a.png)
+![hasil 2a](./img/2a.PNG)
 
 
 ### 2b
@@ -312,7 +312,7 @@ Sehingga menghasilkan daftar nama customer sebagai berikut :
 |Susan Vittorini |
 |David Wiener   |
 
-![hasil 2b](./img/2b.png)
+![hasil 2b](./img/2b.PNG)
 
 ### 2c
 **Soal**  
@@ -371,7 +371,7 @@ Sehingga dihasilkan data sebagai berikut :
 | ------------- | ----------------- |
 |       1783    | Home Office  |
 
-![hasil 2c](./img/2c.png)
+![hasil 2c](./img/2c.PNG)
 
 ### 2d
 **Soal**  
@@ -443,7 +443,7 @@ Sehingga dihasilkan data sebagai berikut :
 | ------------- | ----------------- |
 |       39706.4    | Central  |
 
-![hasil 2d](./img/2d.png)
+![hasil 2d](./img/2d.PNG)
 
 ### 2e
 **Soal** \
@@ -490,7 +490,7 @@ Sehingga menghasilkan
 >Tipe segmen customer yang penjualannya paling sedikit adalah Home Office dengan 1783 transaksi.</br></br>
 >Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah Central dengan total keuntungan 39706.4
 
-![hasil 2e](./img/2e.png)
+![hasil 2e](./img/2e.PNG)
 
 ## Soal 3
 ### Narasi Soal
@@ -681,7 +681,7 @@ di mana \
 
 Hasil :
 
-![Hasil 3b](./img/cr3b.png) 
+![Hasil 3b](./img/cr3b.PNG) 
 
 ### 3c
 **Soal**  
@@ -795,15 +795,15 @@ rm -rf $file
 
 Hasil :
 
-![Hasil 3d](./img/3d_1.png)
+![Hasil 3d](./img/3d_1.PNG)
 
 Di dalam zip :
 
-![Hasil 3d zip](./img/3d_2.png) 
+![Hasil 3d zip](./img/3d_2.PNG) 
 
 Password validity :
 
-![Hasil 3d password](./img/3d_3.png) 
+![Hasil 3d password](./img/3d_3.PNG) 
 
 ### 3e
 **Soal**
@@ -847,14 +847,18 @@ Hasil :
 
 Zipping :
 
-![Hasil 3e](./img/cr3ezipp.png) 
+![Hasil 3e](./img/cr3ezipp.PNG) 
 
 Unzipping :
 
-![Hasil 3eun](./img/cr3ezip.png) 
+![Hasil 3eun](./img/cr3ezip.PNG) 
 
 
 # KENDALA
+## Teknis
 Untuk kendala yang kami alami cukup minim, hanya diperlukan searching yang banyak untuk dapat menyelesaikan masalah yang kami temui. Namun masalah yang paling terasa namun dapat kami atasi adalah tidak konsistennya directory file, sehingga pada soal no 3 kami harus membuat folder baru agar masalah tersebut dapat diatasi.
 
+Terdapat kendala dalam pengerjaan soal nomor 3d. Karena pada awalnya program tidak bekerja seperti seharusnya, yaitu dalam proses peng-*zip*-an, terdapat folder yang tidak bisa masuk ke dalam zip. Sehingga dilakukan revisi sehingga program dapat berjalan dengan baik dan menghasilkan data yang diharapkan
+
+## Non Teknis
 Selain itu, terdapat kendala di luar pengerjaan soal shift, yaitu salah satu anggota kelompok kami yang sama sekali tidak membantu. Kami berdua (Bayu dan Ananda) sudah sangat berupaya untuk menghubungi salah satu anggota kami tersebut, tetapi sama sekali tidak ada respon. Meskipun direspon, salah satu anggota kami hanya memberikan akun github dan whatsapp saja. Begitu pula ketika pembagian tugas tidak ada respon yang diberikan.
