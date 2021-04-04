@@ -31,7 +31,7 @@ grep -oE '(INFO\s.*)|(ERROR\s.*)' syslog.log
   - Secara umum pola yang digunakan adalah `(<teks>.*)`, dimana \<teks\> merupakan teks yang dicari, dan `.*` digunakan untuk *match* semua huruf dibelakang pola teks.
 
 Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
-![Hasil 1a]()  
+![Hasil 1a](./img/1a.png)  
 
 ### 1b
 **Soal**  
@@ -53,7 +53,7 @@ echo Total Error Count = $(grep -cE "ERROR" syslog.log)
   - Menggunakan option `-c` untuk menampilkan jumlah kata yang *match* dengan regex diatas
   
 Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
-![Hasil 1b]()  
+![Hasil 1b](./img/1b.png)  
 
 ### 1c
 **Soal**  
@@ -130,7 +130,7 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
     ```
 
 Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
-![Hasil 1c]()  
+![Hasil 1c](./img/1c.png)  
 
 ### 1d
 **Soal**  
@@ -191,7 +191,7 @@ echo "$errMessages" | grep -oP "(?<=ERROR\s).*(?=\()" | sort | uniq |
     - Option `-t` digunakan untuk menspesifikasikan *separator* yang digunakan.
 
 Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
-![Hasil 1d]()  
+![Hasil 1d](./img/1d.png)  
 
 ### 1e
 **Soal**  
@@ -226,7 +226,7 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
                 userInfo=$((userInfo+1))
             fi
         done
-        echo $user,$userError,$userInfo >> user_statistic.csv
+        echo $user,$userInfo,$userError >> user_statistic.csv
     done
 ```
 </br>
@@ -234,10 +234,10 @@ echo "$usernames" | tr -d ')' | tr -d '(' | sort | uniq |
 **Penjelasan :**  
 Untuk dapat menyelesaikan soal 1e ini hanya diperlukan beberapa tambahan kode.
 - Pada bagian awal ditambahkan `echo Username,INFO,ERROR > user_statistic.csv` untuk *overwrite* file `user_statistic.csv`
-- Pada bagian `echo $user,$userError,$userInfo` ditambahkan ` >> user_statistic.csv` untuk append hasil ke dalam `user_statistic.csv`.
+- Pada bagian `echo $user,$userInfo,$userError` ditambahkan ` >> user_statistic.csv` untuk append hasil ke dalam `user_statistic.csv`.
 
 Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:  
-![Hasil 1e]()  
+![Hasil 1e](./img/1e.png)  
 
 ## Soal 2
 ### Narasi Soal
@@ -617,9 +617,11 @@ done
     }
     ```
     - Melakukan cek apakah foto yang akan di-*download* sudah pernah di-*download* sebelumnya. Kemudian mengurangkan *`counter`* untuk mencegah penamaan yang salah.
-    - Jika belum maka *download* file tersebut.
-  
-</br>
+    - Jika belum maka *download* file tersebut.  
+
+
+Ketika command diatas dijalankan, berikut adalah output yang dihasilkan:
+![Hasil 1d](./img/3a.png) 
 
 ### 3b
 **Soal**
