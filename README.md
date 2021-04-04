@@ -274,6 +274,8 @@ Kemudian jika hasil profit percentage lebih dari 1, maka kita mengambil Row ID t
 | ------------- | ----------------- |
 |       9952    | 100%              |
 
+![hasil 2a](./img/2a.png)
+
 
 ### 2b
 **Soal**  
@@ -309,6 +311,8 @@ Sehingga menghasilkan daftar nama customer sebagai berikut :
 |Michelle Lonsdale |
 |Susan Vittorini |
 |David Wiener   |
+
+![hasil 2b](./img/2b.png)
 
 ### 2c
 **Soal**  
@@ -367,6 +371,7 @@ Sehingga dihasilkan data sebagai berikut :
 | ------------- | ----------------- |
 |       1783    | Home Office  |
 
+![hasil 2c](./img/2c.png)
 
 ### 2d
 **Soal**  
@@ -438,6 +443,8 @@ Sehingga dihasilkan data sebagai berikut :
 | ------------- | ----------------- |
 |       39706.4    | Central  |
 
+![hasil 2d](./img/2d.png)
+
 ### 2e
 **Soal** \
 kamu diharapkan bisa membuat sebuah script yang akan menghasilkan file “hasil.txt” yang memiliki format sebagai berikut:
@@ -482,6 +489,8 @@ Sehingga menghasilkan
 >David Wiener</br></br>
 >Tipe segmen customer yang penjualannya paling sedikit adalah Home Office dengan 1783 transaksi.</br></br>
 >Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah Central dengan total keuntungan 39706.4
+
+![hasil 2e](./img/2e.png)
 
 ## Soal 3
 ### Narasi Soal
@@ -670,6 +679,10 @@ di mana \
 "1/7" menandakan **mulai tanggal 1 kemudian melompat hingga 7 hari ke depan** \
 "2/4" menandakan **mulai tanggal 2 kemudian melompat hingga 4 hari ke depan** 
 
+Hasil :
+
+![Hasil 3b](./img/cr3b.png) 
+
 ### 3c
 **Soal**  
 Agar kuuhaku tidak bosan dengan gambar anak kucing, ia juga memintamu untuk **mengunduh** gambar kelinci dari `"https://loremflickr.com/320/240/bunny"`. Kuuhaku memintamu **mengunduh** gambar kucing dan kelinci secara **bergantian** (yang pertama bebas. contoh : tanggal 30 kucing > tanggal 31 kelinci > tanggal 1 kucing > ... ). Untuk membedakan folder yang berisi gambar kucing dan gambar kelinci, **nama folder diberi awalan** "Kucing_" atau "Kelinci_" (contoh : "Kucing_13-03-2023")
@@ -779,6 +792,19 @@ Kemudian untuk menghapus file - file di luar zip, kita menggunakan
 ```sh
 rm -rf $file
 ```
+
+Hasil :
+
+![Hasil 3d](./img/3d_1.png)
+
+Di dalam zip :
+
+![Hasil 3d zip](./img/3d_2.png) 
+
+Password validity :
+
+![Hasil 3d password](./img/3d_3.png) 
+
 ### 3e
 **Soal**
 Karena kuuhaku hanya bertemu Steven pada saat kuliah saja, yaitu setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu untuk membuat koleksinya **ter-zip** saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya **ter-unzip** dan **tidak ada file zip** sama sekali.
@@ -816,3 +842,19 @@ password=$(date +'%m%d%Y');
 ```sh
 unzip -P "$password" ./Koleksi.zip; rm -rf ./Koleksi.zip
 ```
+
+Hasil :
+
+Zipping :
+
+![Hasil 3e](./img/cr3ezipp.png) 
+
+Unzipping :
+
+![Hasil 3eun](./img/cr3ezip.png) 
+
+
+# KENDALA
+Untuk kendala yang kami alami cukup minim, hanya diperlukan searching yang banyak untuk dapat menyelesaikan masalah yang kami temui. Namun masalah yang paling terasa namun dapat kami atasi adalah tidak konsistennya directory file, sehingga pada soal no 3 kami harus membuat folder baru agar masalah tersebut dapat diatasi.
+
+Selain itu, terdapat kendala di luar pengerjaan soal shift, yaitu salah satu anggota kelompok kami yang sama sekali tidak membantu. Kami berdua (Bayu dan Ananda) sudah sangat berupaya untuk menghubungi salah satu anggota kami tersebut, tetapi sama sekali tidak ada respon. Meskipun direspon, salah satu anggota kami hanya memberikan akun github dan whatsapp saja. Begitu pula ketika pembagian tugas tidak ada respon yang diberikan.
